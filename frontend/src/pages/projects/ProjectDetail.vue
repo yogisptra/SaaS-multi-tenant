@@ -10,10 +10,10 @@
         <div class="flex-1">
           <div class="flex items-center gap-3 mb-2">
             <h1 class="text-3xl font-bold text-slate-800">{{ project.name }}</h1>
-            <span class="text-xs font-semibold px-3 py-1 rounded-full capitalize" :class="{
-              'bg-yellow-50 text-yellow-600': project.status === 'pending',
-              'bg-blue-50 text-blue-600': project.status === 'in_progress',
-              'bg-green-50 text-green-600': project.status === 'completed'
+            <span class="text-xs font-semibold px-3 py-1 rounded-full capitalize border" :class="{
+              'bg-white border-slate-300 text-slate-600': project.status === 'pending',
+              'bg-slate-100 border-slate-300 text-slate-800': project.status === 'in_progress',
+              'bg-slate-900 border-transparent text-white': project.status === 'completed'
             }">
               {{ project.status.replace('_', ' ') }}
             </span>
@@ -78,61 +78,153 @@
         <button v-if="authStore.isAdmin" @click="openTaskModal()" class="text-primary-600 font-medium hover:text-primary-700">Add First Task</button>
       </div>
 
-      <div v-else class="space-y-4">
-        <!-- Task Card -->
-        <div 
-          v-for="task in taskStore.tasks" 
-          :key="task.id"
-          class="bg-white rounded-xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-all-smooth flex flex-col md:flex-row md:items-center justify-between gap-4"
-        >
-          <div class="flex-1">
-            <div class="flex items-center gap-3 mb-1">
-              <span class="w-2.5 h-2.5 rounded-full" :class="{
-                'bg-red-500': task.priority === 'high',
-                'bg-yellow-500': task.priority === 'medium',
-                'bg-green-500': task.priority === 'low'
-              }"></span>
-              <h4 class="font-bold text-slate-800 text-lg">{{ task.title }}</h4>
-            </div>
-            <p class="text-slate-500 text-sm mb-3 md:mb-0 line-clamp-2 max-w-2xl">{{ task.description }}</p>
+      <div v-else class="flex flex-col lg:flex-row gap-6 overflow-x-auto pb-4 items-start">
+        <!-- Column: To Do -->
+        <div class="flex-1 min-w-[320px] bg-slate-50 rounded-2xl p-4 border border-slate-200">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-slate-800">To Do</h3>
+            <span class="bg-slate-200 text-slate-700 text-xs font-bold px-2 py-0.5 rounded-full">{{ todoTasks.length }}</span>
           </div>
-          
-          <div class="flex items-center gap-4 md:gap-6 flex-wrap md:flex-nowrap">
-            <div class="flex items-center gap-2">
-              <div v-if="task.assignee" class="flex items-center gap-2" title="Assignee">
-                <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-600 border-2 border-white shadow-sm">
-                  {{ task.assignee.name.charAt(0) }}
-                </div>
-                <span class="text-sm font-medium text-slate-600 hidden lg:block">{{ task.assignee.name }}</span>
+          <div class="space-y-3 min-h-[150px]" @dragover.prevent @drop="onDrop($event, 'todo')">
+            <div 
+              v-for="task in todoTasks" 
+              :key="task.id"
+              :draggable="canEditTask(task)"
+              @dragstart="onDragStart($event, task)"
+              class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all-smooth relative group"
+              :class="{ 'cursor-grab active:cursor-grabbing': canEditTask(task) }"
+            >
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full" :class="{
+                  'bg-slate-900': task.priority === 'high',
+                  'bg-slate-400': task.priority === 'medium',
+                  'bg-slate-200': task.priority === 'low'
+                }"></span>
+                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">{{ task.priority }}</span>
               </div>
-              <div v-else class="text-sm text-slate-400 italic">Unassigned</div>
+              <h4 class="font-bold text-slate-800 text-[15px] mb-1">{{ task.title }}</h4>
+              <p class="text-slate-500 text-xs line-clamp-2 mb-3">{{ task.description }}</p>
+              
+              <div class="flex items-center justify-between mt-4">
+                <div v-if="task.assignee" class="flex items-center gap-2" title="Assignee">
+                  <div class="w-6 h-6 rounded-full bg-slate-800 text-white flex items-center justify-center text-[10px] font-bold">
+                    {{ task.assignee.name.charAt(0) }}
+                  </div>
+                  <span class="text-xs font-medium text-slate-600">{{ task.assignee.name }}</span>
+                </div>
+                <div v-else class="text-xs text-slate-400 italic">Unassigned</div>
+                
+                <div v-if="canEditTask(task)" class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button @click="openTaskModal(task)" class="p-1.5 text-slate-400 hover:text-slate-800 bg-slate-50 hover:bg-slate-100 rounded">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                  </button>
+                  <button v-if="authStore.isAdmin" @click="confirmDeleteTask(task)" class="p-1.5 text-slate-400 hover:text-red-600 bg-slate-50 hover:bg-red-50 rounded">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                  </button>
+                </div>
+              </div>
             </div>
             
-            <div>
-              <select 
-                v-model="task.status" 
-                @change="updateTaskStatus(task)"
-                :disabled="!canEditTask(task)"
-                class="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2 font-medium disabled:opacity-70 disabled:cursor-not-allowed"
-                :class="{
-                  'text-yellow-600 bg-yellow-50 border-yellow-200': task.status === 'todo',
-                  'text-blue-600 bg-blue-50 border-blue-200': task.status === 'in_progress',
-                  'text-green-600 bg-green-50 border-green-200': task.status === 'completed'
-                }"
-              >
-                <option value="todo">To Do</option>
-                <option value="in_progress">In Progress</option>
-                <option value="completed">Completed</option>
-              </select>
+            <div v-if="todoTasks.length === 0" class="h-24 border-2 border-dashed border-slate-200 rounded-xl flex items-center justify-center text-slate-400 text-sm">
+              Drop tasks here
             </div>
-            
-            <div v-if="canEditTask(task)" class="flex items-center gap-2">
-              <button v-if="authStore.isAdmin" @click="openTaskModal(task)" class="p-2 text-slate-400 hover:text-primary-600 bg-slate-50 hover:bg-primary-50 rounded-lg transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-              </button>
-              <button v-if="authStore.isAdmin" @click="confirmDeleteTask(task)" class="p-2 text-slate-400 hover:text-red-600 bg-slate-50 hover:bg-red-50 rounded-lg transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-              </button>
+          </div>
+        </div>
+
+        <!-- Column: In Progress -->
+        <div class="flex-1 min-w-[320px] bg-slate-50 rounded-2xl p-4 border border-slate-200">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-slate-800">In Progress</h3>
+            <span class="bg-slate-200 text-slate-700 text-xs font-bold px-2 py-0.5 rounded-full">{{ inProgressTasks.length }}</span>
+          </div>
+          <div class="space-y-3 min-h-[150px]" @dragover.prevent @drop="onDrop($event, 'in_progress')">
+            <div 
+              v-for="task in inProgressTasks" 
+              :key="task.id"
+              :draggable="canEditTask(task)"
+              @dragstart="onDragStart($event, task)"
+              class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all-smooth relative group"
+              :class="{ 'cursor-grab active:cursor-grabbing': canEditTask(task) }"
+            >
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full" :class="{
+                  'bg-slate-900': task.priority === 'high',
+                  'bg-slate-400': task.priority === 'medium',
+                  'bg-slate-200': task.priority === 'low'
+                }"></span>
+                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">{{ task.priority }}</span>
+              </div>
+              <h4 class="font-bold text-slate-800 text-[15px] mb-1">{{ task.title }}</h4>
+              <p class="text-slate-500 text-xs line-clamp-2 mb-3">{{ task.description }}</p>
+              
+              <div class="flex items-center justify-between mt-4">
+                <div v-if="task.assignee" class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-full bg-slate-800 text-white flex items-center justify-center text-[10px] font-bold">
+                    {{ task.assignee.name.charAt(0) }}
+                  </div>
+                  <span class="text-xs font-medium text-slate-600">{{ task.assignee.name }}</span>
+                </div>
+                <div v-else class="text-xs text-slate-400 italic">Unassigned</div>
+                
+                <div v-if="canEditTask(task)" class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button @click="openTaskModal(task)" class="p-1.5 text-slate-400 hover:text-slate-800 bg-slate-50 hover:bg-slate-100 rounded">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                  </button>
+                  <button v-if="authStore.isAdmin" @click="confirmDeleteTask(task)" class="p-1.5 text-slate-400 hover:text-red-600 bg-slate-50 hover:bg-red-50 rounded">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div v-if="inProgressTasks.length === 0" class="h-24 border-2 border-dashed border-slate-200 rounded-xl flex items-center justify-center text-slate-400 text-sm">
+              Drop tasks here
+            </div>
+          </div>
+        </div>
+
+        <!-- Column: Completed -->
+        <div class="flex-1 min-w-[320px] bg-slate-50 rounded-2xl p-4 border border-slate-200">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-slate-800">Completed</h3>
+            <span class="bg-slate-200 text-slate-700 text-xs font-bold px-2 py-0.5 rounded-full">{{ completedTasks.length }}</span>
+          </div>
+          <div class="space-y-3 min-h-[150px]" @dragover.prevent @drop="onDrop($event, 'completed')">
+            <div 
+              v-for="task in completedTasks" 
+              :key="task.id"
+              :draggable="canEditTask(task)"
+              @dragstart="onDragStart($event, task)"
+              class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all-smooth relative group opacity-75"
+              :class="{ 'cursor-grab active:cursor-grabbing': canEditTask(task) }"
+            >
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider line-through">{{ task.priority }}</span>
+              </div>
+              <h4 class="font-bold text-slate-500 text-[15px] mb-1 line-through">{{ task.title }}</h4>
+              <p class="text-slate-400 text-xs line-clamp-2 mb-3">{{ task.description }}</p>
+              
+              <div class="flex items-center justify-between mt-4">
+                <div v-if="task.assignee" class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-full bg-slate-300 text-slate-600 flex items-center justify-center text-[10px] font-bold">
+                    {{ task.assignee.name.charAt(0) }}
+                  </div>
+                  <span class="text-xs font-medium text-slate-500">{{ task.assignee.name }}</span>
+                </div>
+                <div v-else class="text-xs text-slate-400 italic">Unassigned</div>
+                
+                <div v-if="canEditTask(task)" class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button @click="openTaskModal(task)" class="p-1.5 text-slate-400 hover:text-slate-800 bg-slate-50 hover:bg-slate-100 rounded">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                  </button>
+                  <button v-if="authStore.isAdmin" @click="confirmDeleteTask(task)" class="p-1.5 text-slate-400 hover:text-red-600 bg-slate-50 hover:bg-red-50 rounded">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div v-if="completedTasks.length === 0" class="h-24 border-2 border-dashed border-slate-200 rounded-xl flex items-center justify-center text-slate-400 text-sm">
+              Drop tasks here
             </div>
           </div>
         </div>
@@ -238,6 +330,10 @@ const taskStore = useTaskStore();
 const projectUuid = route.params.uuid;
 const project = computed(() => projectStore.currentProject);
 
+const todoTasks = computed(() => taskStore.tasks.filter(t => t.status === 'todo'));
+const inProgressTasks = computed(() => taskStore.tasks.filter(t => t.status === 'in_progress'));
+const completedTasks = computed(() => taskStore.tasks.filter(t => t.status === 'completed'));
+
 const showEditModal = ref(false);
 const showTaskModal = ref(false);
 
@@ -306,6 +402,25 @@ const updateTaskStatus = async (task) => {
     // Revert status on failure by re-fetching
     task.status = previousStatus;
     alert(taskStore.error || 'Failed to update task status');
+  }
+};
+
+const onDragStart = (event, task) => {
+  if (!canEditTask(task)) {
+    event.preventDefault();
+    return;
+  }
+  event.dataTransfer.setData('taskId', task.id);
+  event.dataTransfer.effectAllowed = 'move';
+};
+
+const onDrop = (event, newStatus) => {
+  const taskId = event.dataTransfer.getData('taskId');
+  const task = taskStore.tasks.find(t => t.id === taskId);
+  
+  if (task && task.status !== newStatus) {
+    task.status = newStatus;
+    updateTaskStatus(task);
   }
 };
 

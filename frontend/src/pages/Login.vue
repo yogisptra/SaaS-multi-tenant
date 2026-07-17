@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
     <!-- Background Decor -->
     <div class="absolute -top-40 -left-40 w-96 h-96 bg-primary-600 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-    <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+    <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-slate-700 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
 
     <div class="w-full max-w-md glass-dark rounded-2xl p-8 relative z-10 transition-all-smooth">
       <div class="text-center mb-8">

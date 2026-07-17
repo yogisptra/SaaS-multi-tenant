@@ -3,14 +3,14 @@
     <!-- Sidebar -->
     <aside class="w-64 bg-slate-900 text-white flex flex-col fixed inset-y-0 left-0 z-20">
       <div class="h-16 flex items-center px-6 font-bold text-xl tracking-tight border-b border-slate-800">
-        SaaS<span class="text-primary-500">Manager</span>
+        SaaS<span class="text-slate-400">Manager</span>
       </div>
       
       <nav class="flex-1 py-6 px-4 space-y-2">
         <router-link 
           :to="{ name: 'Dashboard' }" 
           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all-smooth"
-          :class="[ $route.name === 'Dashboard' ? 'bg-primary-600/10 text-primary-400' : 'text-slate-400 hover:text-white hover:bg-slate-800' ]"
+          :class="[ $route.name === 'Dashboard' ? 'bg-white/10 text-white font-semibold' : 'text-slate-400 hover:text-white hover:bg-slate-800' ]"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
           Dashboard
@@ -19,7 +19,7 @@
         <router-link 
           :to="{ name: 'Projects' }" 
           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all-smooth"
-          :class="[ $route.name === 'Projects' || $route.name === 'ProjectDetail' ? 'bg-primary-600/10 text-primary-400' : 'text-slate-400 hover:text-white hover:bg-slate-800' ]"
+          :class="[ $route.name === 'Projects' || $route.name === 'ProjectDetail' ? 'bg-white/10 text-white font-semibold' : 'text-slate-400 hover:text-white hover:bg-slate-800' ]"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
           Projects
@@ -28,7 +28,7 @@
 
       <div class="p-4 border-t border-slate-800">
         <div class="flex items-center gap-3 mb-4 px-2">
-          <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-500 to-purple-500 flex items-center justify-center font-bold">
+          <div class="w-10 h-10 rounded-full bg-white text-slate-900 flex items-center justify-center font-bold">
             {{ authStore.user?.name?.charAt(0).toUpperCase() }}
           </div>
           <div class="overflow-hidden">
