@@ -129,5 +129,21 @@ class DatabaseSeeder extends Seeder
                 'due_date' => now()->addDays(rand(7, 60)),
             ]);
         }
+        // Create 2 mock notifications for Admin
+        \App\Models\Notification::create([
+            'user_id' => $admin->id,
+            'title' => 'New Task Assigned',
+            'message' => 'You have been assigned to task: Create wireframes',
+            'is_read' => false,
+            'created_at' => now()->subHours(2),
+        ]);
+
+        \App\Models\Notification::create([
+            'user_id' => $admin->id,
+            'title' => 'System Update',
+            'message' => 'Welcome to SaaS Manager! You can now start managing your projects.',
+            'is_read' => false,
+            'created_at' => now()->subDays(1),
+        ]);
     }
 }
