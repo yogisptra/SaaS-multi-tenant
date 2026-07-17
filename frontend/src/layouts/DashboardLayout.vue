@@ -26,6 +26,7 @@
         </router-link>
 
         <router-link 
+          v-if="authStore.isAdmin"
           :to="{ name: 'ActivityLog' }" 
           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all-smooth font-medium"
           :class="[ $route.name === 'ActivityLog' ? 'bg-primary-50 text-primary-700' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50' ]"

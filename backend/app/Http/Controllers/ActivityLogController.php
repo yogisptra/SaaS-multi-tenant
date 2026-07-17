@@ -16,6 +16,10 @@ class ActivityLogController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        if (request()->user()->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized. Only admins can view activity logs.'], 403);
+        }
+
         $logs = ActivityLog::with('user')
             ->orderBy('created_at', 'desc')
             ->paginate(20);

@@ -35,7 +35,7 @@ const routes = [
         path: 'activity-logs',
         name: 'ActivityLog',
         component: () => import('../pages/ActivityLog.vue'),
-        meta: { title: 'Activity Logs' }
+        meta: { title: 'Activity Logs', requiresAdmin: true }
       }
     ],
   },
@@ -55,10 +55,13 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   const authStore = useAuthStore();
   const isAuthenticated = authStore.isAuthenticated;
+  const isAdmin = authStore.isAdmin;
 
   if (to.meta.requiresAuth && !isAuthenticated) {
     return { name: 'Login' };
   } else if (to.meta.guest && isAuthenticated) {
+    return { name: 'Dashboard' };
+  } else if (to.meta.requiresAdmin && !isAdmin) {
     return { name: 'Dashboard' };
   }
   

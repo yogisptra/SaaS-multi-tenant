@@ -8,11 +8,12 @@ Implementasi backend + frontend untuk **Mini Project Management SaaS** multi-ten
 
 Sebagai penyempurnaan, beberapa pembaruan besar telah dilakukan pada frontend dan backend:
 
-1. **Minimalist UI (Monochrome Theme)**: Desain antarmuka telah diperbarui menggunakan tema hitam-putih (grayscale/zinc) yang modern, mewah, dan *clean*.
-2. **Kanban Board & Drag-and-Drop**: Pengelolaan *task* pada halaman *Project Detail* kini menggunakan *Kanban Board* interaktif. Anda dapat memindahkan tugas antar kolom (To Do, In Progress, Completed) secara mulus.
-3. **Redesign Login Page**: Halaman masuk (*Login*) diperbarui menjadi tampilan *split-screen* beraksen gelap yang lebih elegan.
-4. **Dynamic Browser Title**: Judul tab browser akan berubah otomatis sesuai dengan halaman yang sedang diakses (berkat konfigurasi Vue Router `afterEach` hook).
-5. **Backend Completion**: Seluruh fitur opsional seperti *Audit Trail*, *Pessimistic Locking* (Race Condition), Auto-refresh JWT Token, hingga *Real-time notifications* dan *Soft Delete Recovery* kini telah **diimplementasikan sepenuhnya**.
+1. **Premium Modern UI**: Desain antarmuka telah ditingkatkan dengan tema warna biru/indigo yang cerah, *glassmorphism bubbles*, dan *dotted background patterns* agar tidak monoton.
+2. **Dashboard Data Visualization**: Mengintegrasikan `chart.js` & `vue-chartjs` untuk menampilkan *Doughnut Chart* interaktif pada *Dashboard* yang merangkum status seluruh project secara *real-time*.
+3. **Data Table Pagination**: Halaman *Activity Logs* dirombak total menggunakan format tabel (bukan *list*) yang dilengkapi dengan navigasi *Pagination* tingkat lanjut (First, Prev, 1, 2, 3, Next, Last).
+4. **Admin Route Constraint**: Halaman dan API *Activity Logs* kini sepenuhnya dikunci secara ketat dan hanya dapat diakses/dilihat oleh *user* dengan role **Admin**. (Diimplementasikan melalui Vue Router Guards, Sidebar kondisional, dan *Controller Authorization*).
+5. **Kanban Board & Drag-and-Drop**: Pengelolaan *task* pada halaman *Project Detail* kini menggunakan *Kanban Board* interaktif.
+6. **Backend Completion**: Seluruh fitur opsional seperti *Audit Trail*, *Pessimistic Locking* (Race Condition), Auto-refresh JWT Token, hingga *Real-time notifications* dan *Soft Delete Recovery* kini telah **diimplementasikan sepenuhnya**.
 
 ---
 
