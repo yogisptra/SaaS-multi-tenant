@@ -399,7 +399,7 @@ Authorization: Bearer {token}
 
 Minimal 3 test yang diimplementasikan:
 
-### Test 1: Tenant Isolation (WAJIB)
+### Test 1: Tenant Isolation
 ```
 Tests\Feature\ProjectAndTaskTest::test_task_rbac_and_isolation
 ```
