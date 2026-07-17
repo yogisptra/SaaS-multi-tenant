@@ -42,17 +42,17 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   const authStore = useAuthStore();
   const isAuthenticated = authStore.isAuthenticated;
 
   if (to.meta.requiresAuth && !isAuthenticated) {
-    next({ name: 'Login' });
+    return { name: 'Login' };
   } else if (to.meta.guest && isAuthenticated) {
-    next({ name: 'Dashboard' });
-  } else {
-    next();
+    return { name: 'Dashboard' };
   }
+  
+  return true;
 });
 
 export default router;
