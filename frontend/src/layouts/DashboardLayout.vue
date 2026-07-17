@@ -40,8 +40,7 @@
     <!-- Main Content -->
     <main class="flex-1 ml-64 flex flex-col min-h-screen relative">
       <!-- Top Header -->
-      <header class="h-16 bg-white/80 backdrop-blur border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-10">
-        <h2 class="text-xl font-semibold text-slate-800 capitalize">{{ $route.meta.title || $route.name }}</h2>
+      <header class="h-16 bg-white/80 backdrop-blur border-b border-slate-200 flex items-center justify-end px-8 sticky top-0 z-10">
         <div class="flex items-center gap-4">
            <!-- Notifications -->
            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 cursor-pointer hover:bg-slate-200 transition-all-smooth">
@@ -69,7 +68,7 @@
       </header>
 
       <!-- Page Content -->
-      <div class="flex-1 p-8">
+      <div class="flex-1 px-8 pb-8 pt-6">
         <router-view :key="$route.fullPath" v-slot="{ Component }">
           <transition name="fade" mode="out-in">
             <component :is="Component" />
