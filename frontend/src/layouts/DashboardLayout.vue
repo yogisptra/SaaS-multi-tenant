@@ -46,7 +46,7 @@
       <div class="absolute bottom-0 left-10 w-[500px] h-[500px] bg-indigo-200/30 rounded-full blur-3xl -z-10 transform -translate-x-1/4 translate-y-1/4 pointer-events-none"></div>
       
       <!-- Top Header -->
-      <header class="h-16 bg-white/80 backdrop-blur border-b border-slate-200 flex items-center justify-end px-8 sticky top-0 z-10">
+      <header class="h-16 bg-white/80 backdrop-blur border-b border-slate-200 flex items-center justify-end px-8 sticky top-0 z-40">
         <div class="flex items-center gap-4">
            <!-- Notifications -->
            <div class="relative">
