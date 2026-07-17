@@ -1,24 +1,25 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:15-alpine
-    container_name: saas_postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${DB_DATABASE:-saas_db}
-      POSTGRES_USER: ${DB_USERNAME:-saas_user}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-saas_password}
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
-      - "5432:5432"
+      - "8000:8000"
     volumes:
-      - saas_pg_data:/var/lib/postgresql/data
-    networks:
-      - saas_network
+      - ./backend:/var/www/html
+    environment:
+      - DB_CONNECTION=sqlite
+    depends_on:
+      - frontend
 
-volumes:
-  saas_pg_data:
-
-networks:
-  saas_network:
-    driver: bridge
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules

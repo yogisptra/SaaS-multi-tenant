@@ -440,45 +440,7 @@ Solusi yang lebih clean: ekspos `uuid` secara konsisten di semua resource, atau 
 
 ---
 
-## Yang Di-skip & Would-do-if-more-time
 
-### Di-skip karena keterbatasan waktu:
-
-| Fitur | Alasan Skip | Impact |
-|---|---|---|
-| **Email real** | Mock ke DB sudah cukup untuk validasi queue | Low |
-| **Audit trail** | Tabel `activity_log` belum diimplementasikan | Medium |
-| **Race condition handling** | Belum ada pessimistic/optimistic locking pada update task concurrent | Medium |
-| **Refresh token flow** | Endpoint ada, tapi frontend belum handle expired token auto-refresh | Medium |
-| **Admin — kelola user** (RBAC) | CRUD user oleh admin belum diimplementasikan | High |
-| **Pagination di frontend** | Frontend menampilkan semua data tanpa navigasi halaman | Low |
-| **CI/CD** | Belum ada GitHub Actions workflow | Low |
-| **Docker** | docker-compose.yml ada tapi belum fully tested | Low |
-
-### Would-do-if-more-time:
-
-1. **Audit Trail:** Tambah tabel `activity_logs` dengan kolom `user_id`, `action`, `model_type`, `model_id`, `old_values`, `new_values`. Implementasi via Observer atau Event listener.
-
-2. **Race Condition:** Gunakan `DB::transaction()` + pessimistic locking (`lockForUpdate()`) pada endpoint update task status untuk mencegah conflict ketika dua user mengubah task yang sama bersamaan.
-
-3. **Token Refresh:** Implement auto-refresh JWT di Axios interceptor: jika response 401 dan ada refresh token, otomatis request token baru sebelum retry request original.
-
-4. **Admin User Management:** Endpoint `GET/POST/PATCH/DELETE /users` yang hanya bisa diakses Admin untuk mengelola member dalam perusahaannya.
-
-5. **Real-time Notification:** WebSocket via Laravel Reverb atau Pusher untuk menampilkan notifikasi task assignment secara real-time di frontend.
-
-6. **Soft Delete Recovery:** Endpoint untuk merestore project/task yang ter-soft-delete.
-
-7. **Index Optimization:** Tambah composite index `(project_id, status, assigned_to)` pada tabel tasks untuk query board-style filtering.
-
-8. **CI Pipeline:**
-```yaml
-# .github/workflows/ci.yml
-- name: Run tests
-  run: php artisan test
-- name: PHP CS Fixer
-  run: vendor/bin/pint --test
-```
 
 ---
 

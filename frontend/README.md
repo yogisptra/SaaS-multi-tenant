@@ -1,5 +1,14 @@
-# Vue 3 + Vite
+# Frontend Vue.js - Mini Project Management SaaS
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Fitur yang Diimplementasikan
+- **Modern UI**: Tailwind CSS v4 + UI minimalis
+- **State Management**: Pinia Store terpisah per domain (Auth, Project, Task)
+- **Auto Token Refresh**: Axios interceptor yang merotate JWT token pada HTTP 401
+- **Role-based Rendering**: Menampilkan UI berdasarkan level auth pengguna
+- **Live Updates**: Listener untuk websocket event task update (bisa disambungkan via Laravel Echo)
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Setup
+```bash
+npm install
+npm run dev
+```

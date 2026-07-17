@@ -56,4 +56,9 @@ class TaskPolicy
     {
         return $user->role === 'admin' && $user->company_id === $task->company_id;
     }
+
+    public function restore(User $user, Task $task): bool
+    {
+        return $user->role === 'admin' && $user->company_id === $task->company_id;
+    }
 }

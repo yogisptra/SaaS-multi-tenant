@@ -37,18 +37,23 @@ class TaskService
 
     public function updateTask(Task $task, TaskDTO $dto): Task
     {
-        $oldAssignedTo = $task->assigned_to;
-        $data = $dto->toArray();
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($task, $dto) {
+            // Pessimistic locking to prevent race conditions
+            $lockedTask = Task::lockForUpdate()->find($task->id);
 
-        $updatedTask = $this->taskRepository->update($task, $data);
-        $newAssignedTo = $updatedTask->assigned_to;
+            $oldAssignedTo = $lockedTask->assigned_to;
+            $data = $dto->toArray();
 
-        // Jika assigned_to berubah, dispatch event (akan ditangani di STEP 9)
-        if ($oldAssignedTo !== $newAssignedTo && $newAssignedTo !== null) {
-            event(new \App\Events\TaskAssigned($updatedTask));
-        }
+            $updatedTask = $this->taskRepository->update($lockedTask, $data);
+            $newAssignedTo = $updatedTask->assigned_to;
 
-        return $updatedTask->load(['assignee', 'project']);
+            // Jika assigned_to berubah, dispatch event
+            if ($oldAssignedTo !== $newAssignedTo && $newAssignedTo !== null) {
+                event(new \App\Events\TaskAssigned($updatedTask));
+            }
+
+            return $updatedTask->load(['assignee', 'project']);
+        });
     }
 
     public function deleteTask(Task $task): bool

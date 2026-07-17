@@ -21,11 +21,17 @@ Route::prefix('v1')->group(function () {
 
     // Tenant-scoped routes (auth + tenant middleware)
     Route::middleware(['auth:api', 'tenant'])->group(function () {
+        // Users
+        Route::apiResource('users', \App\Http\Controllers\UserController::class)
+            ->parameters(['users' => 'user:uuid']);
+            
         // Projects
+        Route::patch('projects/{project}/restore', \App\Http\Controllers\ProjectRestoreController::class);
         Route::apiResource('projects', ProjectController::class)
             ->parameters(['projects' => 'uuid']);
 
         // Tasks (nested under projects)
+        Route::patch('projects/{project}/tasks/{task}/restore', \App\Http\Controllers\TaskRestoreController::class);
         Route::apiResource('projects.tasks', TaskController::class)
             ->parameters(['projects' => 'projectUuid', 'tasks' => 'taskUuid']);
 

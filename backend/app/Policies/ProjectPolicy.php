@@ -46,4 +46,9 @@ class ProjectPolicy
     {
         return $user->role === 'admin' && $user->company_id === $project->company_id;
     }
+
+    public function restore(User $user, Project $project): bool
+    {
+        return $user->role === 'admin' && $user->company_id === $project->company_id;
+    }
 }
