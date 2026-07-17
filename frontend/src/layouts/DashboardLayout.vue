@@ -38,7 +38,12 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 ml-64 flex flex-col min-h-screen relative">
+    <main class="flex-1 ml-64 flex flex-col min-h-screen relative bg-slate-50/50 overflow-hidden">
+      <!-- Background Elements -->
+      <div class="absolute inset-0 z-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiNlMmU4ZjAiLz48L3N2Zz4=')] bg-repeat" style="background-size: 20px; opacity: 0.7"></div>
+      <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-200/30 rounded-full blur-3xl -z-10 transform translate-x-1/3 -translate-y-1/4 pointer-events-none"></div>
+      <div class="absolute bottom-0 left-10 w-[500px] h-[500px] bg-indigo-200/30 rounded-full blur-3xl -z-10 transform -translate-x-1/4 translate-y-1/4 pointer-events-none"></div>
+      
       <!-- Top Header -->
       <header class="h-16 bg-white/80 backdrop-blur border-b border-slate-200 flex items-center justify-end px-8 sticky top-0 z-10">
         <div class="flex items-center gap-4">
@@ -68,7 +73,7 @@
       </header>
 
       <!-- Page Content -->
-      <div class="flex-1 px-8 pb-8 pt-6">
+      <div class="flex-1 px-8 pb-8 pt-6 relative z-10">
         <router-view :key="$route.fullPath" v-slot="{ Component }">
           <transition name="fade" mode="out-in">
             <component :is="Component" />
