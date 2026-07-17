@@ -21,10 +21,12 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
-      if (originalRequest.url === '/auth/refresh') {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = '/login';
+      if (originalRequest.url === '/auth/refresh' || originalRequest.url === '/auth/login') {
+        if (originalRequest.url === '/auth/refresh') {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          window.location.href = '/login';
+        }
         return Promise.reject(error);
       }
       originalRequest._retry = true;
