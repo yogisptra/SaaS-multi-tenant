@@ -73,7 +73,7 @@
                      :key="notif.id"
                      @click="handleNotificationClick(notif)"
                      class="p-4 hover:bg-slate-50 transition-colors cursor-pointer"
-                     :class="{ 'bg-primary-50/30': !notif.read_at }"
+                     :class="{ 'bg-primary-50/30': !notif.is_read }"
                    >
                      <div class="flex gap-3">
                        <div class="w-8 h-8 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center shrink-0">
@@ -139,13 +139,21 @@ const toggleNotifications = () => {
 };
 
 const handleNotificationClick = async (notif) => {
-  if (!notif.read_at) {
+  if (!notif.is_read) {
     await notificationStore.markAsRead(notif.id);
   }
   showNotifications.value = false;
   // If notification contains project info, could route there:
   // if (notif.data?.project_uuid) router.push({ name: 'ProjectDetail', params: { uuid: notif.data.project_uuid }});
 };
+
+// Close notifications dropdown when route changes
+import { watch } from 'vue';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+watch(route, () => {
+  showNotifications.value = false;
+});
 
 onMounted(() => {
   notificationStore.fetchNotifications();
