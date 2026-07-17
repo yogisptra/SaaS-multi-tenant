@@ -10,10 +10,10 @@
         <div class="flex-1">
           <div class="flex items-center gap-3 mb-2">
             <h1 class="text-3xl font-bold text-slate-800">{{ project.name }}</h1>
-            <span class="text-xs font-semibold px-3 py-1 rounded-full capitalize border" :class="{
-              'bg-white border-slate-300 text-slate-600': project.status === 'pending',
-              'bg-slate-100 border-slate-300 text-slate-800': project.status === 'in_progress',
-              'bg-slate-900 border-transparent text-white': project.status === 'completed'
+            <span class="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide border" :class="{
+              'bg-amber-50 border-amber-200 text-amber-700': project.status === 'pending',
+              'bg-blue-50 border-blue-200 text-blue-700': project.status === 'in_progress',
+              'bg-emerald-50 border-emerald-200 text-emerald-700': project.status === 'completed'
             }">
               {{ project.status.replace('_', ' ') }}
             </span>
