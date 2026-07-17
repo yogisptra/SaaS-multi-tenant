@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: saas_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-saas_db}
+      POSTGRES_USER: ${DB_USERNAME:-saas_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-saas_password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - saas_pg_data:/var/lib/postgresql/data
+    networks:
+      - saas_network
+
+volumes:
+  saas_pg_data:
+
+networks:
+  saas_network:
+    driver: bridge
