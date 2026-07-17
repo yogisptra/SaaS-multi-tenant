@@ -30,7 +30,7 @@
       <router-link 
         v-for="project in projectStore.projects" 
         :key="project.id"
-        :to="{ name: 'ProjectDetail', params: { uuid: project.uuid } }"
+        :to="{ name: 'ProjectDetail', params: { uuid: project.id } }"
         class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm hover:shadow-md hover:border-primary-200 transition-all-smooth group cursor-pointer block"
       >
         <div class="flex justify-between items-start mb-4">

@@ -39,14 +39,14 @@
       </div>
       
       <div v-else class="space-y-4">
-        <div v-for="project in projectStore.projects.slice(0, 5)" :key="project.id" class="flex items-center justify-between p-4 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all-smooth cursor-pointer" @click="$router.push({ name: 'ProjectDetail', params: { uuid: project.uuid } })">
+        <div v-for="project in projectStore.projects.slice(0, 5)" :key="project.id" class="flex items-center justify-between p-4 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all-smooth cursor-pointer" @click="$router.push({ name: 'ProjectDetail', params: { uuid: project.id } })">
           <div class="flex items-center gap-4">
             <div class="w-12 h-12 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-lg">
               {{ project.name.charAt(0).toUpperCase() }}
             </div>
             <div>
               <h4 class="font-semibold text-slate-800">{{ project.name }}</h4>
-              <p class="text-sm text-slate-500">{{ project.tasks_count || 0 }} tasks pending</p>
+              <p class="text-sm text-slate-500">{{ project.task_count || 0 }} tasks</p>
             </div>
           </div>
           <div class="text-sm font-medium px-3 py-1 rounded-full" :class="{

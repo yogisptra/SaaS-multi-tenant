@@ -13,7 +13,9 @@ export const useTaskStore = defineStore('task', {
       this.error = null;
       try {
         const response = await api.get(`/projects/${projectUuid}/tasks`);
-        this.tasks = response.data.data;
+        // API returns paginated response: actual array is in response.data.data.data
+        const payload = response.data.data;
+        this.tasks = Array.isArray(payload) ? payload : (payload.data ?? []);
         return this.tasks;
       } catch (err) {
         this.error = err.response?.data?.message || 'Failed to fetch tasks';

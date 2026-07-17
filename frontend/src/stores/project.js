@@ -14,7 +14,9 @@ export const useProjectStore = defineStore('project', {
       this.error = null;
       try {
         const response = await api.get('/projects');
-        this.projects = response.data.data;
+        // API returns paginated response: response.data.data.data is the array
+        const payload = response.data.data;
+        this.projects = Array.isArray(payload) ? payload : (payload.data ?? []);
         return this.projects;
       } catch (err) {
         this.error = err.response?.data?.message || 'Failed to fetch projects';
