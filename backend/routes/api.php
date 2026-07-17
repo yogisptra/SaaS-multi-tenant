@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -19,6 +20,8 @@ Route::prefix('v1')->group(function () {
 
     // Tenant-scoped routes (auth + tenant middleware)
     Route::middleware(['auth:api', 'tenant'])->group(function () {
-        // Project & Task routes will be added in STEP 7 & 8
+        // Projects
+        Route::apiResource('projects', ProjectController::class)
+            ->parameters(['projects' => 'uuid']);
     });
 });
