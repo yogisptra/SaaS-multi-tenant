@@ -1,16 +1,16 @@
 <template>
   <div class="min-h-screen bg-slate-50 flex">
     <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 text-white flex flex-col fixed inset-y-0 left-0 z-20">
-      <div class="h-16 flex items-center px-6 font-bold text-xl tracking-tight border-b border-slate-800">
-        SaaS<span class="text-slate-400">Manager</span>
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col fixed inset-y-0 left-0 z-20">
+      <div class="h-16 flex items-center px-6 font-bold text-xl tracking-tight border-b border-slate-100">
+        <span class="text-primary-600">SaaS</span><span class="text-slate-800">Manager</span>
       </div>
       
       <nav class="flex-1 py-6 px-4 space-y-2">
         <router-link 
           :to="{ name: 'Dashboard' }" 
-          class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all-smooth"
-          :class="[ $route.name === 'Dashboard' ? 'bg-white/10 text-white font-semibold' : 'text-slate-400 hover:text-white hover:bg-slate-800' ]"
+          class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all-smooth font-medium"
+          :class="[ $route.name === 'Dashboard' ? 'bg-primary-50 text-primary-700' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50' ]"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
           Dashboard
@@ -18,8 +18,8 @@
         
         <router-link 
           :to="{ name: 'Projects' }" 
-          class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all-smooth"
-          :class="[ $route.name === 'Projects' || $route.name === 'ProjectDetail' ? 'bg-white/10 text-white font-semibold' : 'text-slate-400 hover:text-white hover:bg-slate-800' ]"
+          class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all-smooth font-medium"
+          :class="[ $route.name === 'Projects' || $route.name === 'ProjectDetail' ? 'bg-primary-50 text-primary-700' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50' ]"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
           Projects
@@ -27,8 +27,8 @@
 
         <router-link 
           :to="{ name: 'ActivityLog' }" 
-          class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all-smooth"
-          :class="[ $route.name === 'ActivityLog' ? 'bg-white/10 text-white font-semibold' : 'text-slate-400 hover:text-white hover:bg-slate-800' ]"
+          class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all-smooth font-medium"
+          :class="[ $route.name === 'ActivityLog' ? 'bg-primary-50 text-primary-700' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50' ]"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           Activity Logs
@@ -50,10 +50,10 @@
            <!-- User Profile & Logout -->
            <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
              <div class="text-right hidden md:block">
-               <p class="text-sm font-semibold text-slate-700 leading-tight">{{ authStore.user?.name }}</p>
-               <p class="text-xs text-slate-500 capitalize">{{ authStore.user?.role }}</p>
+               <p class="text-sm font-semibold text-slate-800 leading-tight">{{ authStore.user?.name }}</p>
+               <p class="text-xs text-slate-500 capitalize font-medium">{{ authStore.user?.role }}</p>
              </div>
-             <div class="w-9 h-9 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-sm">
+             <div class="w-9 h-9 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-bold text-sm shadow-inner border border-primary-200">
                {{ authStore.user?.name?.charAt(0).toUpperCase() }}
              </div>
              <button 

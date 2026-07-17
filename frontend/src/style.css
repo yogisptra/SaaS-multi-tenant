@@ -4,12 +4,12 @@
 @theme {
   --font-sans: 'Inter', sans-serif;
   
-  /* Monochrome Minimalist Theme */
-  --color-primary-50: #fafafa;
-  --color-primary-100: #f4f4f5;
-  --color-primary-500: #71717a;
-  --color-primary-600: #27272a;
-  --color-primary-700: #18181b;
+  /* Modern Blue Theme */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
   
   --color-dark-800: #27272a;
   --color-dark-900: #18181b;
