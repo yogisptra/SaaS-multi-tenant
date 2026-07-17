@@ -19,9 +19,10 @@ abstract class BaseRepository implements BaseRepositoryInterface
         // Search
         if (!empty($filters['search']) && !empty($this->searchableFields())) {
             $search = $filters['search'];
-            $query->where(function ($q) use ($search) {
+            $operator = $this->getLikeOperator();
+            $query->where(function ($q) use ($search, $operator) {
                 foreach ($this->searchableFields() as $field) {
-                    $q->orWhere($field, 'ILIKE', "%{$search}%");
+                    $q->orWhere($field, $operator, "%{$search}%");
                 }
             });
         }
@@ -66,6 +67,11 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function delete(Model $model): bool
     {
         return $model->delete();
+    }
+
+    protected function getLikeOperator(): string
+    {
+        return \Illuminate\Support\Facades\DB::connection()->getDriverName() === 'sqlite' ? 'LIKE' : 'ILIKE';
     }
 
     /**

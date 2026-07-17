@@ -12,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[Fillable(['uuid', 'company_id', 'name', 'email', 'password', 'role', 'status', 'last_login'])]
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, HasUuid;
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

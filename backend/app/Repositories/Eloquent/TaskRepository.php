@@ -24,9 +24,10 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         // Search
         if (!empty($filters['search'])) {
             $search = $filters['search'];
-            $query->where(function ($q) use ($search) {
+            $operator = $this->getLikeOperator();
+            $query->where(function ($q) use ($search, $operator) {
                 foreach ($this->searchableFields() as $field) {
-                    $q->orWhere($field, 'ILIKE', "%{$search}%");
+                    $q->orWhere($field, $operator, "%{$search}%");
                 }
             });
         }
