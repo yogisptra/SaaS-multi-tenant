@@ -6,7 +6,7 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import('../pages/Login.vue'),
-    meta: { guest: true },
+    meta: { guest: true, title: 'Sign In' },
   },
   {
     path: '/',
@@ -17,16 +17,19 @@ const routes = [
         path: '',
         name: 'Dashboard',
         component: () => import('../pages/Dashboard.vue'),
+        meta: { title: 'Dashboard' }
       },
       {
         path: 'projects',
         name: 'Projects',
         component: () => import('../pages/projects/ProjectList.vue'),
+        meta: { title: 'Projects' }
       },
       {
         path: 'projects/:uuid',
         name: 'ProjectDetail',
         component: () => import('../pages/projects/ProjectDetail.vue'),
+        meta: { title: 'Project Details' }
       }
     ],
   },
@@ -34,6 +37,7 @@ const routes = [
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('../pages/NotFound.vue'),
+    meta: { title: 'Page Not Found' }
   }
 ];
 
@@ -53,6 +57,11 @@ router.beforeEach((to, from) => {
   }
   
   return true;
+});
+
+router.afterEach((to) => {
+  const defaultTitle = 'SaaS Manager';
+  document.title = to.meta.title ? `${to.meta.title} | ${defaultTitle}` : defaultTitle;
 });
 
 export default router;

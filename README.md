@@ -4,6 +4,16 @@
 
 Implementasi backend + frontend untuk **Mini Project Management SaaS** multi-tenant — versi ringkas dari Asana/Trello yang mendukung isolasi data antar perusahaan, RBAC dua level, background job, dan feature testing komprehensif.
 
+## Pembaruan Terkini (Final Revamp)
+
+Sebagai penyempurnaan, beberapa pembaruan besar telah dilakukan pada frontend dan backend:
+
+1. **Minimalist UI (Monochrome Theme)**: Desain antarmuka telah diperbarui menggunakan tema hitam-putih (grayscale/zinc) yang modern, mewah, dan *clean*.
+2. **Kanban Board & Drag-and-Drop**: Pengelolaan *task* pada halaman *Project Detail* kini menggunakan *Kanban Board* interaktif. Anda dapat memindahkan tugas antar kolom (To Do, In Progress, Completed) secara mulus.
+3. **Redesign Login Page**: Halaman masuk (*Login*) diperbarui menjadi tampilan *split-screen* beraksen gelap yang lebih elegan.
+4. **Dynamic Browser Title**: Judul tab browser akan berubah otomatis sesuai dengan halaman yang sedang diakses (berkat konfigurasi Vue Router `afterEach` hook).
+5. **Backend Completion**: Seluruh fitur opsional seperti *Audit Trail*, *Pessimistic Locking* (Race Condition), Auto-refresh JWT Token, hingga *Real-time notifications* dan *Soft Delete Recovery* kini telah **diimplementasikan sepenuhnya**.
+
 ---
 
 ## Table of Contents
@@ -17,7 +27,6 @@ Implementasi backend + frontend untuk **Mini Project Management SaaS** multi-ten
 7. [API Documentation](#api-documentation)
 8. [Testing](#testing)
 9. [Keputusan Teknis yang Masih Ragu](#keputusan-teknis-yang-masih-ragu)
-10. [Yang Di-skip & Would-do-if-more-time](#yang-di-skip--would-do-if-more-time)
 
 ---
 
