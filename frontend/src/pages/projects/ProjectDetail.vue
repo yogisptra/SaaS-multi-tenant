@@ -293,23 +293,25 @@ const confirmDeleteProject = async () => {
 
 const canEditTask = (task) => {
   if (authStore.isAdmin) return true;
-  if (authStore.isMember && task.assignee?.id === authStore.user?.id) return true;
+  // Assignee.id from API is UUID; user.uuid is the same UUID field
+  if (authStore.isMember && task.assignee?.id === authStore.user?.uuid) return true;
   return false;
 };
 
 const updateTaskStatus = async (task) => {
+  const previousStatus = task.status;
   try {
-    await taskStore.updateTask(projectUuid, task.uuid, { status: task.status });
+    await taskStore.updateTask(projectUuid, task.id, { status: task.status });
   } catch (error) {
-    // Revert status on failure
-    await taskStore.fetchTasks(projectUuid);
-    alert('Failed to update task status');
+    // Revert status on failure by re-fetching
+    task.status = previousStatus;
+    alert(taskStore.error || 'Failed to update task status');
   }
 };
 
 const openTaskModal = (task = null) => {
   if (task) {
-    taskForm.uuid = task.uuid;
+    taskForm.uuid = task.id;          // task.id is the UUID from API
     taskForm.title = task.title;
     taskForm.description = task.description || '';
     taskForm.priority = task.priority;
@@ -329,9 +331,20 @@ const openTaskModal = (task = null) => {
 const handleSaveTask = async () => {
   try {
     if (taskForm.uuid) {
-      await taskStore.updateTask(projectUuid, taskForm.uuid, taskForm);
+      await taskStore.updateTask(projectUuid, taskForm.uuid, {
+        title: taskForm.title,
+        description: taskForm.description,
+        priority: taskForm.priority,
+        status: taskForm.status,
+      });
     } else {
-      await taskStore.createTask(projectUuid, taskForm);
+      await taskStore.createTask(projectUuid, {
+        title: taskForm.title,
+        description: taskForm.description,
+        priority: taskForm.priority,
+        status: taskForm.status,
+        assigned_to: taskForm.assigned_to,
+      });
     }
     showTaskModal.value = false;
   } catch (error) {
@@ -342,7 +355,7 @@ const handleSaveTask = async () => {
 const confirmDeleteTask = async (task) => {
   if (confirm('Are you sure you want to delete this task?')) {
     try {
-      await taskStore.deleteTask(projectUuid, task.uuid);
+      await taskStore.deleteTask(projectUuid, task.id); // task.id is the UUID
     } catch (error) {
       alert(taskStore.error || 'Failed to delete task');
     }
