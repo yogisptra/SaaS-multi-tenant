@@ -463,7 +463,7 @@ Solusi yang lebih clean: ekspos `uuid` secara konsisten di semua resource, atau 
 
 ---
 
-## Penanganan Race Condition (Dijelaskan)
+## Penanganan Race Condition
 
 Pada kasus dua Member mengupdate status task yang sama bersamaan, terdapat potensi lost update. Solusi yang akan diimplementasikan:
 

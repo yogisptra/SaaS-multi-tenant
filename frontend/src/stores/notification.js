@@ -8,14 +8,15 @@ export const useNotificationStore = defineStore('notification', {
     error: null,
   }),
   getters: {
-    unreadCount: (state) => state.notifications.filter(n => !n.read_at).length,
+    unreadCount: (state) => state.notifications.filter(n => !n.is_read).length,
   },
   actions: {
     async fetchNotifications() {
       this.loading = true;
       try {
         const response = await api.get('/notifications');
-        this.notifications = response.data.data;
+        // Handle pagination wrapping if present
+        this.notifications = response.data.data.data ? response.data.data.data : response.data.data;
       } catch (err) {
         this.error = err.response?.data?.message || 'Failed to fetch notifications';
       } finally {
@@ -27,7 +28,7 @@ export const useNotificationStore = defineStore('notification', {
         await api.patch(`/notifications/${id}/read`);
         const notification = this.notifications.find(n => n.id === id);
         if (notification) {
-          notification.read_at = new Date().toISOString();
+          notification.is_read = true;
         }
       } catch (err) {
         console.error('Failed to mark notification as read', err);
@@ -37,7 +38,7 @@ export const useNotificationStore = defineStore('notification', {
       try {
         await api.patch('/notifications/read-all');
         this.notifications.forEach(n => {
-          n.read_at = new Date().toISOString();
+          n.is_read = true;
         });
       } catch (err) {
         console.error('Failed to mark all notifications as read', err);
