@@ -186,11 +186,11 @@
         <div class="flex-1 min-w-[320px] bg-slate-50 rounded-2xl p-4 border border-slate-200">
           <div class="flex items-center justify-between mb-4">
             <h3 class="font-bold text-slate-800">Completed</h3>
-            <span class="bg-slate-200 text-slate-700 text-xs font-bold px-2 py-0.5 rounded-full">{{ completedTasks.length }}</span>
+            <span class="bg-slate-200 text-slate-700 text-xs font-bold px-2 py-0.5 rounded-full">{{ doneTasks.length }}</span>
           </div>
-          <div class="space-y-3 min-h-[150px]" @dragover.prevent @drop="onDrop($event, 'completed')">
+          <div class="space-y-3 min-h-[150px]" @dragover.prevent @drop="onDrop($event, 'done')">
             <div 
-              v-for="task in completedTasks" 
+              v-for="task in doneTasks" 
               :key="task.id"
               :draggable="canEditTask(task)"
               @dragstart="onDragStart($event, task)"
@@ -223,7 +223,7 @@
                 </div>
               </div>
             </div>
-            <div v-if="completedTasks.length === 0" class="h-24 border-2 border-dashed border-slate-200 rounded-xl flex items-center justify-center text-slate-400 text-sm">
+            <div v-if="doneTasks.length === 0" class="h-24 border-2 border-dashed border-slate-200 rounded-xl flex items-center justify-center text-slate-400 text-sm">
               Drop tasks here
             </div>
           </div>
@@ -296,7 +296,7 @@
               <select v-model="taskForm.status" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
                 <option value="todo">To Do</option>
                 <option value="in_progress">In Progress</option>
-                <option value="completed">Completed</option>
+                <option value="done">Done</option>
               </select>
             </div>
           </div>
@@ -332,7 +332,7 @@ const project = computed(() => projectStore.currentProject);
 
 const todoTasks = computed(() => taskStore.tasks.filter(t => t.status === 'todo'));
 const inProgressTasks = computed(() => taskStore.tasks.filter(t => t.status === 'in_progress'));
-const completedTasks = computed(() => taskStore.tasks.filter(t => t.status === 'completed'));
+const doneTasks = computed(() => taskStore.tasks.filter(t => t.status === 'done'));
 
 const showEditModal = ref(false);
 const showTaskModal = ref(false);
