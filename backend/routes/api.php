@@ -28,5 +28,10 @@ Route::prefix('v1')->group(function () {
         // Tasks (nested under projects)
         Route::apiResource('projects.tasks', TaskController::class)
             ->parameters(['projects' => 'projectUuid', 'tasks' => 'taskUuid']);
+
+        // Notifications
+        Route::get('notifications', [\App\Http\Controllers\NotificationController::class, 'index']);
+        Route::patch('notifications/read-all', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead']);
+        Route::patch('notifications/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead']);
     });
 });

@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Events\TaskAssigned;
+use App\Listeners\TaskAssignedListener;
 use App\Models\Project;
 use App\Models\Task;
 use App\Policies\ProjectPolicy;
 use App\Policies\TaskPolicy;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,5 +39,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('manage-users', function ($user) {
             return $user->role === 'admin';
         });
+
+        // Event-Listener
+        Event::listen(TaskAssigned::class, TaskAssignedListener::class);
     }
 }
