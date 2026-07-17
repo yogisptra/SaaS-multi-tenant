@@ -1,19 +1,6 @@
 # Mini Project Management SaaS
 
-> Take-Home Test — Fullstack Engineer (SaaS)
-
 Implementasi backend + frontend untuk **Mini Project Management SaaS** multi-tenant — versi ringkas dari Asana/Trello yang mendukung isolasi data antar perusahaan, RBAC dua level, background job, dan feature testing komprehensif.
-
-## Pembaruan Terkini (Final Revamp)
-
-Sebagai penyempurnaan, beberapa pembaruan besar telah dilakukan pada frontend dan backend:
-
-1. **Premium Modern UI**: Desain antarmuka telah ditingkatkan dengan tema warna biru/indigo yang cerah, *glassmorphism bubbles*, dan *dotted background patterns* agar tidak monoton.
-2. **Dashboard Data Visualization**: Mengintegrasikan `chart.js` & `vue-chartjs` untuk menampilkan *Doughnut Chart* interaktif pada *Dashboard* yang merangkum status seluruh project secara *real-time*.
-3. **Data Table Pagination**: Halaman *Activity Logs* dirombak total menggunakan format tabel (bukan *list*) yang dilengkapi dengan navigasi *Pagination* tingkat lanjut (First, Prev, 1, 2, 3, Next, Last).
-4. **Admin Route Constraint**: Halaman dan API *Activity Logs* kini sepenuhnya dikunci secara ketat dan hanya dapat diakses/dilihat oleh *user* dengan role **Admin**. (Diimplementasikan melalui Vue Router Guards, Sidebar kondisional, dan *Controller Authorization*).
-5. **Kanban Board & Drag-and-Drop**: Pengelolaan *task* pada halaman *Project Detail* kini menggunakan *Kanban Board* interaktif.
-6. **Backend Completion (Nilai Plus Terpenuhi 100%)**: Seluruh fitur opsional seperti *Audit Trail*, *Pessimistic Locking* (Race Condition), Auto-refresh JWT Token, hingga *Real-time notifications*, *User CRUD API (oleh Admin)*, dan *Soft Delete Recovery* kini telah **diimplementasikan sepenuhnya**. File *Postman Collection* juga disertakan untuk mempermudah testing.
 
 ---
 
@@ -445,6 +432,17 @@ Berikut adalah daftar poin-poin "Nilai Plus" yang semuanya **telah berhasil diim
 4. **Migration yang Reversible**: Menggunakan fungsi standar `up()` dan `down()` di file migration Laravel.
 5. **Kesiapan Docker**: Terdapat file `Dockerfile` pada backend dan frontend, serta `docker-compose.yml` untuk mempermudah *deployment*.
 6. **Postman Collection**: Telah disiapkan file `SaaS_Mini_Project_Management.postman_collection.json` di *root* repositori. Anda dapat meng-*import* file tersebut ke dalam Postman untuk melakukan testing seluruh API secara langsung tanpa harus mengetik URL satu per satu.
+
+## Pembaruan Terkini
+
+Sebagai penyempurnaan, beberapa pembaruan besar telah dilakukan pada frontend dan backend:
+
+1. **Premium Modern UI**: Desain antarmuka telah ditingkatkan dengan tema warna biru/indigo yang cerah, *glassmorphism bubbles*, dan *dotted background patterns* agar tidak monoton.
+2. **Dashboard Data Visualization**: Mengintegrasikan `chart.js` & `vue-chartjs` untuk menampilkan *Doughnut Chart* interaktif pada *Dashboard* yang merangkum status seluruh project secara *real-time*.
+3. **Data Table Pagination**: Halaman *Activity Logs* dirombak total menggunakan format tabel (bukan *list*) yang dilengkapi dengan navigasi *Pagination* tingkat lanjut (First, Prev, 1, 2, 3, Next, Last).
+4. **Admin Route Constraint**: Halaman dan API *Activity Logs* kini sepenuhnya dikunci secara ketat dan hanya dapat diakses/dilihat oleh *user* dengan role **Admin**. (Diimplementasikan melalui Vue Router Guards, Sidebar kondisional, dan *Controller Authorization*).
+5. **Kanban Board & Drag-and-Drop**: Pengelolaan *task* pada halaman *Project Detail* kini menggunakan *Kanban Board* interaktif.
+6. **Backend Completion (Nilai Plus Terpenuhi 100%)**: Seluruh fitur opsional seperti *Audit Trail*, *Pessimistic Locking* (Race Condition), Auto-refresh JWT Token, hingga *Real-time notifications*, *User CRUD API (oleh Admin)*, dan *Soft Delete Recovery* kini telah **diimplementasikan sepenuhnya**. File *Postman Collection* juga disertakan untuk mempermudah testing.
 
 ---
 
