@@ -30,6 +30,12 @@ const routes = [
         name: 'ProjectDetail',
         component: () => import('../pages/projects/ProjectDetail.vue'),
         meta: { title: 'Project Details' }
+      },
+      {
+        path: 'activity-logs',
+        name: 'ActivityLog',
+        component: () => import('../pages/ActivityLog.vue'),
+        meta: { title: 'Activity Logs' }
       }
     ],
   },

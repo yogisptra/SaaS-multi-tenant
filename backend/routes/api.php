@@ -39,5 +39,8 @@ Route::prefix('v1')->group(function () {
         Route::get('notifications', [\App\Http\Controllers\NotificationController::class, 'index']);
         Route::patch('notifications/read-all', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead']);
         Route::patch('notifications/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead']);
+
+        // Activity Logs
+        Route::get('activity-logs', [\App\Http\Controllers\ActivityLogController::class, 'index']);
     });
 });
