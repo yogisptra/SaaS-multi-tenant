@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -23,5 +24,9 @@ Route::prefix('v1')->group(function () {
         // Projects
         Route::apiResource('projects', ProjectController::class)
             ->parameters(['projects' => 'uuid']);
+
+        // Tasks (nested under projects)
+        Route::apiResource('projects.tasks', TaskController::class)
+            ->parameters(['projects' => 'projectUuid', 'tasks' => 'taskUuid']);
     });
 });
