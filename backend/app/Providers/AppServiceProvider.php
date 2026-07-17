@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Project;
+use App\Models\Task;
+use App\Policies\ProjectPolicy;
+use App\Policies\TaskPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +24,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Register Policies
+        Gate::policy(Project::class, ProjectPolicy::class);
+        Gate::policy(Task::class, TaskPolicy::class);
+
+        // Gates
+        Gate::define('admin-only', function ($user) {
+            return $user->role === 'admin';
+        });
+
+        Gate::define('manage-users', function ($user) {
+            return $user->role === 'admin';
+        });
     }
 }
